@@ -3,6 +3,7 @@ package config
 import (
 	"fmt"
 
+	"github.com/FJericho/url-shortener/entity"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 	"gorm.io/driver/postgres"
@@ -26,6 +27,14 @@ func NewDatabaseConfig(v *viper.Viper, log *logrus.Logger) *gorm.DB {
 	}
 
 	log.Info("Database Connected")
+
+	err = db.AutoMigrate(
+		&entity.URL{},
+	)
+
+	if err != nil {
+		log.Fatalf("error on running migration : %+v", err)
+	}
 
 	return db
 }

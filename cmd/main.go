@@ -4,8 +4,14 @@ import (
 	"fmt"
 
 	"github.com/FJericho/url-shortener/config"
+	_ "github.com/FJericho/url-shortener/docs"
 )
 
+// @title       URL Shortener API
+// @version     1.0
+// @description URL shortener backend service
+// @host        localhost:3000
+// @BasePath    /
 func main() {
 	viper := config.NewViperConfig()
 	app := config.NewFiberConfig(viper)

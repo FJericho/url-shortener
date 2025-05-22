@@ -1,0 +1,106 @@
+basePath: /
+definitions:
+  dto.ErrorResponseSwagger:
+    properties:
+      errors:
+        type: string
+    type: object
+  dto.ShortenRequest:
+    properties:
+      original:
+        type: string
+    required:
+    - original
+    type: object
+  dto.ShortenResponse:
+    properties:
+      original:
+        type: string
+      short_code:
+        type: string
+    required:
+    - original
+    type: object
+  dto.WebResponseSwagger:
+    properties:
+      data:
+        $ref: '#/definitions/dto.ShortenResponse'
+      message:
+        type: string
+    type: object
+host: localhost:3000
+info:
+  contact: {}
+  description: URL shortener backend service
+  title: URL Shortener API
+  version: "1.0"
+paths:
+  /{short_code}:
+    get:
+      description: Redirects to original URL using short code
+      parameters:
+      - description: Short Code
+        in: path
+        name: short_code
+        required: true
+        type: string
+      responses:
+        "301":
+          description: Redirect to original URL
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponseSwagger'
+      summary: Redirect short URL
+      tags:
+      - URL
+  /api/url/{short_code}:
+    get:
+      description: Retrieves the original URL from the short code
+      parameters:
+      - description: Short Code
+        in: path
+        name: short_code
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.WebResponseSwagger'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/dto.ErrorResponseSwagger'
+      summary: Get original URL
+      tags:
+      - URL
+  /shorten:
+    post:
+      consumes:
+      - application/json
+      description: Accepts a long URL and returns the shortened version
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ShortenRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.WebResponseSwagger'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.ErrorResponseSwagger'
+      summary: Shorten a URL
+      tags:
+      - URL
+swagger: "2.0"

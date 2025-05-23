@@ -130,7 +130,7 @@ Shortens a given long URL by generating a unique short code.
 Redirects the user to the original URL based on the short code.
 
 #### Example:
-```json
+```sh
 GET localhost:3000/a1B2c3
 ```
 
@@ -156,7 +156,7 @@ GET localhost:3000/a1B2c3
 Returns the original URL and its short code without redirection.
 
 #### Example:
-```json
+```sh
 GET localhost:3000/api/url/a1B2c3
 ```
 
